@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <tile>Login - Empresas</tile>
+</head>
+<body>
+    <h1>Login</h1>
+
+    <ul>
+        <% if(typeof errors != 'undefined') { %>
+            <% errors.forEach(error =>{ %> 
+                <li><%= error.mensagem%></li>
+            <% }); %>
+        <% } %>   
+    </ul>
+
+    <ul>
+        <% if(messages.info) { %>
+        <li><%= messages.info %></li>
+        <% } %>
+      </ul>
+  
+      <ul>
+        <% if (messages.error) { %>
+        <li><%= messages.error %></li>
+        <% } %>
+      </ul>
+
+
+    
+    <form action="/empresa/login" method="POST">
+        <div>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email"
+              required
+            />
+          </div>
+          <div>
+            <input
+              type="password"
+              id="senha"
+              name="senha"
+              placeholder="Senha"
+              required
+            />
+          </div>
+          <div>
+            <button type="submit"> Login </button>  
+          </div>
+    </form>
+
+    <a href='/empresa/cadastrar'> cadastra-se</a>
+    <a href='/'> voltar para página inicial</a>
+</b
