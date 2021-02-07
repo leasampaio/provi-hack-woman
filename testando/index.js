@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const { pool } = require('./dbConfig');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
@@ -9,27 +8,23 @@ const passport = require('passport');
 require('dotenv').config()
 const app = express();
 
-
 const PORT = process.env.PORT || 8080;
-
 
 const inicializePassport = require('./passportConfig');
 inicializePassport(passport);
 
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(cors());
 app.set("view engine", "ejs");
+
 
 
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
-
     resave: false,
+    saveUninitialized: false,
 
-    saveUninitialized: false
 }));
 
 app.use(passport.initialize());
@@ -50,12 +45,14 @@ app.get('/empresa/login', checkAuthenticated, (req, res) => {
 
 app.get('/empresa/dashboard', checkNotAuthenticated, (req, res) => {
     console.log(req.isAuthenticated());
-    res.render("dashboard", {empresa: req.body.nome});
+    console.log(req);
+    dados = req.user;
+    
+    res.render("dashboard" , {nome: dados[0].nome });
 })
 
 app.get('/empresa/logout', (req, res) => {
     req.logout();
-    res.flash('info', "Logout realizado com sucesso");
     res.redirect('/empresa/login');
 })
 
@@ -67,11 +64,11 @@ app.post('/empresa/cadastrar', async (req, res) => {
     let errors = [];
 
     if (!nome || !email || !senha){
-        errors.push({mensagem: "Preencha os campos obrigatórios"})
+        errors.push({message: "Preencha os campos obrigatórios"})
     }
 
     if (senha.length < 6){
-        errors.push({mensagem: "A senha precisa ter no mínimo 6 caracteres"})
+        errors.push({message: "A senha precisa ter no mínimo 6 caracteres"})
     }
 
     if(errors.length > 0){
@@ -92,7 +89,7 @@ app.post('/empresa/cadastrar', async (req, res) => {
                 console.log(result.rows)
 
                 if(result.rows.length > 0) {
-                    errors.push({mensagem: "Email já está cadastrado."});
+                    errors.push({message: "Email já está cadastrado."});
                     res.render('cadastro', { errors });
                 } else {
                     pool.query(

@@ -10,7 +10,7 @@ const client = new Client({
     database: process.env.DB_NAME,
 });
 
-client.
+client
     .connect()
     .then(() => console.log ('connect'))
     .catch(err => console.error('connection error', err.stack))
