@@ -1,6 +1,6 @@
 # provi-hack-woman
 
-No Back-End do projeto os objetivo foram:
+No Back-End do projeto os objetivos foram:
 - realizar o cadastro do usuário (empresa);
 - a autenticação durante a realização do login;
 - a iniciação e encerramento de uma sessão;
