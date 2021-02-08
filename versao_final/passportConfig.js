@@ -51,7 +51,7 @@ function initialize(passport){
 
     passport.deserializeUser((id_empresa, done) => {
         pool.query(
-            `select * FROM empresas INNER JOIN vagas ON empresas.id_empresa = vagas.empresa 
+            `SELECT * FROM empresas INNER JOIN vagas ON empresas.id_empresa = vagas.empresa 
             WHERE id_empresa = $1`,
             [id_empresa],
             (error, result) => {
