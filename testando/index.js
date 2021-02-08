@@ -18,8 +18,6 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.set("view engine", "ejs");
 
 
-
-
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -45,10 +43,31 @@ app.get('/empresa/login', checkAuthenticated, (req, res) => {
 
 app.get('/empresa/dashboard', checkNotAuthenticated, (req, res) => {
     console.log(req.isAuthenticated());
-    console.log(req);
-    dados = req.user;
     
-    res.render("dashboard" , {nome: dados[0].nome });
+    dados = req.user;
+    //console.log(dados);
+    res.render("dashboard" , dados);
+
+})
+
+app.post('/empresa/usuarias', async (req, res) => {
+
+    const { area } = req.body;
+    //console.log(area); 
+    //var resultado; 
+    await pool.query(
+        'SELECT * FROM usuarias', (error, result) => {
+            if (error) {
+                throw error;
+            }
+            
+/*          const resultado = result.rows
+            console.log(resultado)
+            return resultado */
+       
+        res.render("usuarias", {resultado: result.rows}); 
+    }) 
+                  
 })
 
 app.get('/empresa/logout', (req, res) => {

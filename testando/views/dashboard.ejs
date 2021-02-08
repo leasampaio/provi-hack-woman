@@ -8,10 +8,16 @@
 </head>
 <body>
     <a href='/empresa/logout'> Logout</a>
-    <h1><%= nome %></h1>
+    <h1><%= dados[0].nome %></h1>
 
-    
-
-    
+    <% for(i=0; i<dados.length; i++) { %> 
+    <div class="campo_vagas">        
+        <form method="post" action="/empresa/usuarias">
+            <input type="submit" name="area" value="<%= dados[i].area_tecnologica %>"/> 
+        </form>
+        <p>  <%= dados[i].descricao_vaga %></p>
+    </div>
+    <% } %> 
+   
 </body>
 </html>
